@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Without Event Delegation with Handler</title>
+</head>
+<body>
+    <h1>Without Event Delegation with Handler</h1>
+    <h3 id="count">0</h3>
+    <ul id="buttonList"></ul>
+
+    <script>
+        let count = 0;
+        const countDisplay = document.getElementById('count');
+        const buttonList = document.getElementById('buttonList');
+
+        // 버튼 생성
+        const buttonCounts = Array(5000).fill(null).map((_, i) => i);
+
+        // 공통 핸들러
+        const handler = (e) => {
+          const target = e.currentTarget;
+          count += Number(target.dataset.increase);
+          countDisplay.textContent = count;
+        }
+        
+        // 각 버튼 생성 및 이벤트 리스너 추가
+        buttonCounts.forEach(increaseCount => {
+            const li = document.createElement('li');
+            const button = document.createElement('button');
+            
+            button.type = 'button';
+            button.dataset.increase = increaseCount.toString();
+            button.textContent = `+${increaseCount}`;
+            
+            // 각 버튼에 공통 핸들러 사용
+            button.addEventListener('click', handler);
+
+            li.appendChild(button);
+            buttonList.appendChild(li);
+        });
+    </script>
+</body>
+</html>

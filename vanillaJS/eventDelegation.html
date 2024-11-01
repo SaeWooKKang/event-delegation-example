@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Delegation</title>
+  
+    <script>
+        const heading = document.querySelector('h1')
+        console.log(heading)
+    </script>
+</head>
+<body>
+    <h1>Event Delegation</h1>
+    <h3 id="count">0</h3>
+    <ul id="buttonList"></ul>
+
+    <script>
+        let count = 0;
+        const countDisplay = document.getElementById('count');
+        const buttonList = document.getElementById('buttonList');
+
+        // 버튼 생성
+        const buttonCounts = Array(5000).fill(null).map((_, i) => i);
+        
+        // 각 버튼 생성
+        buttonCounts.forEach(increaseCount => {
+            const li = document.createElement('li');
+            const button = document.createElement('button');
+            
+            button.type = 'button';
+            button.dataset.increase = increaseCount.toString();
+            button.textContent = `+${increaseCount}`;
+
+            li.appendChild(button);
+            buttonList.appendChild(li);
+        });
+
+        // 이벤트 위임: buttonList에 하나의 이벤트 리스너 추가
+        buttonList.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target.tagName === 'BUTTON') {
+                count += Number(target.dataset.increase);
+                countDisplay.textContent = count;
+            }
+        });
+    </script>
+</body>
+</html>
